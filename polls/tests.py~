@@ -28,7 +28,7 @@ class AnimalTestCase(TestCase):
 		lion = Animal.objects.get(name="lion")
 		cat = Animal.objects.get(name="cat")
 		self.assertEqual(lion.speak(), 'The lion says "roar"')
-		self.assertEqual(cat.speak(), 'The cat says "meow"')
+		self.assertEqual(cat.speak(), 'The cat says "meow!!"')
 #	def test_browser(self):
 #		"""server test"""
 #		response = self.c.get('http://127.0.0.1:8000/')
