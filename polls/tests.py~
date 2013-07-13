@@ -56,7 +56,9 @@ class AnimalTestCase(TestCase):
 		#eval('string = {"last_status": null, "is_followed": false, "is_available": false, "authentication": {"secret": "574ee3e9fd3ccf76c7da2a693a7e36e66b3bb516", "key": "test"}, "surname": "", "id": "173", "username": "test", "profile_pic": "http://s3.amazonaws.com/moodeetphotos/photos/130201184942.584.jpg", "name": ""}')
 		#authentication =  ast.literal_eval(string)
 		authentication = string[string.find('"secret": ') + 11:string.find('",')]
-		print authentication
+		key = string[string.find('"key": ') + 8:string.find('"}')]
+ 		#print authentication
+		self.assertTrue(len(authentication)>3 and key=="tests")
 
 
 
