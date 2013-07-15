@@ -23,13 +23,15 @@ class AnimalTestCase(TestCase):
 	def setUp(self):
 		Animal.objects.create(name="lion", sound="roar")
 		Animal.objects.create(name="cat", sound="meow")
-		values = {'username' : 'test','password' : 'test'}
+		values = {'username' : 'dev','password' : '123456'}
 		self.datas = urllib.urlencode(values)
 		global false,null
 		false = False
 		null = None
 		self.c = Client()
-
+	def hitFormPost(self,url):
+		req = urllib2.Request(url,self.datas)
+		return urllib2.urlopen(req)
 
 	def test_animals_can_speak(self):
 		"""Animals that can speak are correctly identified"""
@@ -49,17 +51,19 @@ class AnimalTestCase(TestCase):
 	def test_login(self):
 		"""Login test"""
 		# Send HTTP POST request
-		req = urllib2.Request('http://moodeettesting.herokuapp.com/person/signin', self.datas)
-		response = urllib2.urlopen(req)
+		#req = urllib2.Request('http://moodeettesting.herokuapp.com/person/signin', self.datas)
+		response = self.hitFormPost('http://moodeettesting.herokuapp.com/person/signin')
 		string = response.read()
+		print string
 		#can not parse with eval
 		#eval('string = {"last_status": null, "is_followed": false, "is_available": false, "authentication": {"secret": "574ee3e9fd3ccf76c7da2a693a7e36e66b3bb516", "key": "test"}, "surname": "", "id": "173", "username": "test", "profile_pic": "http://s3.amazonaws.com/moodeetphotos/photos/130201184942.584.jpg", "name": ""}')
 		#authentication =  ast.literal_eval(string)
-		authentication = string[string.find('"secret": ') + 11:string.find('",')]
-		key = string[string.find('"key": ') + 8:string.find('"}')]
- 		#print authentication
-		self.assertTrue(len(authentication)>3 and key=="test")
-
+		self.authentication = string[string.find('"secret":') + 11:string.find('",',string.find('"secret":') + 11)]
+ 		print 'AUTHENTICATION: '+self.authentication
+		self.assertTrue(len(self.authentication)>3)
+	#def test_mood(self):
+	#	if (len(self.authentication)>3) :
+			
 
 
 
