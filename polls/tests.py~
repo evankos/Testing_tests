@@ -11,6 +11,7 @@ from django.test.client import Client
 import urllib2
 import urllib
 import ast
+import subprocess
 class SimpleTest(TestCase):
     def test_basic_addition(self):
         """
@@ -54,13 +55,16 @@ class AnimalTestCase(TestCase):
 		#req = urllib2.Request('http://moodeettesting.herokuapp.com/person/signin', self.datas)
 		response = self.hitFormPost('http://moodeettesting.herokuapp.com/person/signin')
 		string = response.read()
-		#print string
+		print string
 		#can not parse with eval
 		#eval('string = {"last_status": null, "is_followed": false, "is_available": false, "authentication": {"secret": "574ee3e9fd3ccf76c7da2a693a7e36e66b3bb516", "key": "test"}, "surname": "", "id": "173", "username": "test", "profile_pic": "http://s3.amazonaws.com/moodeetphotos/photos/130201184942.584.jpg", "name": ""}')
 		#authentication =  ast.literal_eval(string)
 		self.authentication = string[string.find('"secret":') + 11:string.find('",',string.find('"secret":') + 11)]
  		print 'AUTHENTICATION: '+self.authentication
 		self.assertTrue(len(self.authentication)>3)
+		cmd='curl -v -X GET -H "Authorization: OAuth oauth_consumer_key='+ self.authentication +'" http://moodeet.herokuapp.com/api/moodeet/mood/'
+		#with open('/home/evan/Desktop/cmd.res','w') as fout: 
+		subprocess.call(cmd,console=True)
 	#def test_mood(self):
 	#	if (len(self.authentication)>3) :
 			

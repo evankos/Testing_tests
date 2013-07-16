@@ -11,6 +11,7 @@ from django.test.client import Client
 import urllib2
 import urllib
 import ast
+import subprocess
 class SimpleTest(TestCase):
     def test_basic_addition(self):
         """
@@ -61,6 +62,9 @@ class AnimalTestCase(TestCase):
 		self.authentication = string[string.find('"secret":') + 11:string.find('",',string.find('"secret":') + 11)]
  		print 'AUTHENTICATION: '+self.authentication
 		self.assertTrue(len(self.authentication)>3)
+		cmd='curl -v -X GET -H "Authorization: OAuth oauth_consumer_key='+ self.authentication +'" http://moodeet.herokuapp.com/api/moodeet/mood/'
+		#with open('/home/evan/Desktop/cmd.res','w') as fout: 
+		subprocess.call(cmd,shell=True)
 	#def test_mood(self):
 	#	if (len(self.authentication)>3) :
 			
